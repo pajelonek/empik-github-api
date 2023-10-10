@@ -41,6 +41,8 @@
 
 ### Serwis powinien pobierać dane z https://api.github.com/users/{login} (np. https://api.github.com/users/octocat) i przekazać je w API. W polu calculations powinien być zwrócony wynik działania  6 / liczba_followers * (2 + liczba_public_repos).
 
+### Dokumentacja: https://docs.github.com/en/free-pro-team@latest/rest/users/users?apiVersion=2022-11-28#get-a-user
+
 ### Serwis powininen zapisywać w bazie danych liczbę wywołań API dla każdego loginu. Baza danych pwoinna zawierać dwie kolumny: LOGIN oraz REQUEST_COUNT powinna być zwiększona o jeden.
 
 ### Serwis powinien być zaimplementowany w Java. Projekt powiniene być możliwy do zbudowania za pomocą Maven lub Gradle. Możesz wspierać się dowolnymi, łatwo dostępnymi technologiami (silniki BD, biblioteki, frameworki).
