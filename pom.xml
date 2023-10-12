@@ -19,6 +19,7 @@
 		<sonar.organization>pajelonek</sonar.organization>
 		<sonar.projectKey>pajelonek_empik-github-api</sonar.projectKey>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 	<dependencies>
 		<dependency>
