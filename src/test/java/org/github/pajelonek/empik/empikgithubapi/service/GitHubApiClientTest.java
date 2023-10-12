@@ -5,31 +5,35 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.github.pajelonek.empik.empikgithubapi.model.GithubApiUserResponse;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class GitHubApiClientTest {
 
-    @Autowired
     GitHubApiClient client;
 
-    @MockBean
+    @Mock
     RestTemplate restTemplate;
 
+    @BeforeEach
+    void startUp() {
+        client = new GitHubApiClient(restTemplate);
+    }
 
     @AfterEach
     void tearDown() {
@@ -37,35 +41,44 @@ public class GitHubApiClientTest {
     }
 
     @Test
-    void test() throws IOException {
+    void getUserInfoHappyPath() {
         //given
         final String user = "testUser";
         GithubApiUserResponse response = json2Java("github-api-userinfo-response-ok.json", GithubApiUserResponse.class);
-        when(restTemplate.getForEntity(any(), any())).thenReturn(ResponseEntity.ok(response));
+        given(restTemplate.getForEntity(anyString(), any())).willReturn(ResponseEntity.ok(response));
         //when
-        client.getUserInfo(user);
+        ResponseEntity<GithubApiUserResponse> actualResponse = client.getUserInfo(user);
+        //then
+        assertThat(HttpStatus.OK).isEqualTo(actualResponse.getStatusCode());
+        assertThat(response).isEqualTo(actualResponse.getBody());
+        verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, GithubApiUserResponse.class);
+    }
+
+    @Test
+    void getUserInfoThrowsException() {
+        //given
+        final String user = "testUser";
+        given(restTemplate.getForEntity(anyString(), any())).willThrow(RestClientException.class);
+        //when
+        assertThrows(RestClientException.class, () -> client.getUserInfo(user));
         //then
         verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, GithubApiUserResponse.class);
     }
 
-    public static <T> T json2Java(String fileName, Class<T> classType) throws IOException {
+    public static <T> T json2Java(String fileName, Class<T> classType) {
 
-        T t = null;
+        T response = null;
         ClassPathResource classPathResource = new ClassPathResource("test_data/" + fileName);
 
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            t=mapper.readValue(classPathResource.getFile(), classType);
+            response = mapper.readValue(classPathResource.getFile(), classType);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return t;
-    }
-
-    private static Object readFromFile(String path, Class neededClass) throws IOException {
-        return new ObjectMapper().readValue(new ClassPathResource(path).getFile(), neededClass);
+        return response;
     }
 
 }
