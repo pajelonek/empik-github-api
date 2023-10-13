@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
 
+import java.nio.file.Files;
+
 public class TestUtils {
 
-    public static <T> T json2Java(String fileName, Class<T> classType) {
+    public static <T> T json2ClassType(String fileName, Class<T> classType) {
 
         T response = null;
         ClassPathResource classPathResource = new ClassPathResource("test_data/" + fileName);

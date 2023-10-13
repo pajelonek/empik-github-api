@@ -14,7 +14,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.github.pajelonek.empik.empikgithubapi.utils.TestUtils.json2Java;
+import static org.github.pajelonek.empik.empikgithubapi.utils.TestUtils.json2ClassType;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -42,7 +42,7 @@ public class GitHubApiClientTest {
     void getUserInfoHappyPath() {
         //given
         final String user = "testUser";
-        UserInfoResponse response = json2Java("github-api-userinfo-response-ok.json", UserInfoResponse.class);
+        UserInfoResponse response = json2ClassType("github-api-userinfo-response-ok.json", UserInfoResponse.class);
         given(restTemplate.getForEntity(anyString(), any())).willReturn(ResponseEntity.ok(response));
         //when
         ResponseEntity<UserInfoResponse> actualResponse = client.getUserInfo(user);

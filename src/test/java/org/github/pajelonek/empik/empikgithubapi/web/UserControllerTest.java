@@ -1,39 +1,47 @@
 package org.github.pajelonek.empik.empikgithubapi.web;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.github.pajelonek.empik.empikgithubapi.model.UserResponse;
+import org.github.pajelonek.empik.empikgithubapi.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.github.pajelonek.empik.empikgithubapi.utils.TestUtils.json2ClassType;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class UserControllerTest {
 
-
-    @Value(value="${local.server.port}")
-    private int port;
-
     @Autowired
-    private TestRestTemplate restTemplate;
+    private MockMvc mockMvc;
 
+    @MockBean
+    private UserService service;
+
+    ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    void test() {
-        // given
+    public void shouldReturnMessage() throws Exception {
+        String user = "octocat";
+        UserResponse mockedResponse = json2ClassType("getUserInfo-response-ok.json", UserResponse.class);
+        given(service.getUserInfo(anyString())).willReturn(ResponseEntity.ok(mockedResponse));
+        ResultActions resultActions = mockMvc.perform(get("/users/" + user))
+                .andExpect(status().isOk());
 
-
-        // when
-//        this.restTemplate.getForObject("http://localhost:" + port + "/users/octocat", GithubApiUserResponse.class);
-//        assertThat()
-//                .isEqualTo(json2Java("github-api-userinfo-response-ok.json", GithubApiUserResponse.class));
-//        ResponseEntity<GithubApiUserResponse> response = this.controller.user("john");
-
-        // then
-//        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
+        UserResponse actualResponse = mapper.readValue(resultActions.andReturn().getResponse().getContentAsString(), UserResponse.class);
+        assertThat(mockedResponse).isEqualTo(actualResponse);
     }
 
 }
