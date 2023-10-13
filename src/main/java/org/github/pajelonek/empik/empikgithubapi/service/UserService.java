@@ -13,8 +13,7 @@ import java.util.Objects;
 @Slf4j
 public class UserService {
 
-    final
-    GitHubApiClient client;
+    final GitHubApiClient client;
 
     public UserService(GitHubApiClient client) {
         this.client = client;
