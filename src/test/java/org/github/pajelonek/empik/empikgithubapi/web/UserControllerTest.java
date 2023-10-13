@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class UserControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class UserControllerTest {
     ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    public void shouldReturnMessage() throws Exception {
+    void shouldReturnMessage() throws Exception {
         String user = "octocat";
         UserResponse mockedResponse = json2ClassType("getUserInfo-response-ok.json", UserResponse.class);
         given(service.getUserInfo(anyString())).willReturn(ResponseEntity.ok(mockedResponse));
