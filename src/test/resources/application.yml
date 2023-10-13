@@ -1,0 +1,5 @@
+api:
+  basic:
+    auth:
+      enabled:
+        false

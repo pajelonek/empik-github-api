@@ -1,8 +1,6 @@
 package org.github.pajelonek.empik.empikgithubapi.service;
 
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.github.pajelonek.empik.empikgithubapi.model.GithubApiUserResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,13 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.github.pajelonek.empik.empikgithubapi.utils.TestUtils.json2Java;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -63,22 +61,6 @@ public class GitHubApiClientTest {
         assertThrows(RestClientException.class, () -> client.getUserInfo(user));
         //then
         verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, GithubApiUserResponse.class);
-    }
-
-    public static <T> T json2Java(String fileName, Class<T> classType) {
-
-        T response = null;
-        ClassPathResource classPathResource = new ClassPathResource("test_data/" + fileName);
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-            response = mapper.readValue(classPathResource.getFile(), classType);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return response;
     }
 
 }
