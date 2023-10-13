@@ -11,7 +11,7 @@
 
 	<groupId>org.github.pajelonek.empik</groupId>
 	<artifactId>empik-github-api</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<name>empik-github-api</name>
 	<description>Empik Github API </description>
 
@@ -24,8 +24,8 @@
 		<sonar.projectKey>pajelonek_empik-github-api</sonar.projectKey>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.exclusions>
-			**/model/*.java,
-			**/errorhandling/*.java
+			**/model/**/*.java,
+			**/errorhandling/**/*.java
 		</sonar.exclusions>
 		<sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
