@@ -1,7 +1,7 @@
 package org.github.pajelonek.empik.empikgithubapi.service;
 
 
-import org.github.pajelonek.empik.empikgithubapi.model.GithubApiUserResponse;
+import org.github.pajelonek.empik.empikgithubapi.model.github.UserInfoResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,14 +42,14 @@ public class GitHubApiClientTest {
     void getUserInfoHappyPath() {
         //given
         final String user = "testUser";
-        GithubApiUserResponse response = json2Java("github-api-userinfo-response-ok.json", GithubApiUserResponse.class);
+        UserInfoResponse response = json2Java("github-api-userinfo-response-ok.json", UserInfoResponse.class);
         given(restTemplate.getForEntity(anyString(), any())).willReturn(ResponseEntity.ok(response));
         //when
-        ResponseEntity<GithubApiUserResponse> actualResponse = client.getUserInfo(user);
+        ResponseEntity<UserInfoResponse> actualResponse = client.getUserInfo(user);
         //then
         assertThat(HttpStatus.OK).isEqualTo(actualResponse.getStatusCode());
         assertThat(response).isEqualTo(actualResponse.getBody());
-        verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, GithubApiUserResponse.class);
+        verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, UserInfoResponse.class);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class GitHubApiClientTest {
         //when
         assertThrows(RestClientException.class, () -> client.getUserInfo(user));
         //then
-        verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, GithubApiUserResponse.class);
+        verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, UserInfoResponse.class);
     }
 
 }

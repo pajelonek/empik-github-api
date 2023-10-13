@@ -1,4 +1,4 @@
-package org.github.pajelonek.empik.empikgithubapi.model;
+package org.github.pajelonek.empik.empikgithubapi.model.github;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class GithubApiUserResponse {
+public class UserInfoResponse {
     private String login;
     private int id;
     @JsonProperty("node_id")
@@ -70,12 +70,12 @@ public class GithubApiUserResponse {
     @JsonProperty("twitter_username")
 
     private String twitterUsername;
-    @JsonProperty("private_repos")
+    @JsonProperty("public_repos")
 
-    private int privateRepos;
-    @JsonProperty("private_gists")
+    private int publicRepos;
+    @JsonProperty("public_gists")
 
-    private int privateGists;
+    private int publicGists;
     private int followers;
     private int following;
     @JsonProperty("created_at")

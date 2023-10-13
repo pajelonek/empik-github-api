@@ -6,17 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfoResponse {
-    private String id;
+public class UserResponse {
+    private int id;
     private String login;
     private String name;
     private String type;
     private String avatarUrl;
-    private String createdAt;
+    private Date createdAt;
     private BigDecimal calculations;
 }
