@@ -1,15 +1,12 @@
 package org.github.pajelonek.empik.empikgithubapi.web;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.github.pajelonek.empik.empikgithubapi.model.UserResponse;
 import org.github.pajelonek.empik.empikgithubapi.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Validated
 @Slf4j
 @RequestMapping("/users")
 public class UserController {
@@ -21,7 +18,7 @@ public class UserController {
     }
 
     @GetMapping("/{user}")
-    public ResponseEntity<UserResponse> user(@PathVariable @NonNull String user) {
+    public ResponseEntity<UserResponse> user(@PathVariable String user) {
         return userService.getUserInfo(user);
     }
 }
