@@ -1,6 +1,7 @@
 package org.github.pajelonek.empik.empikgithubapi.service;
 
 
+import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
 import org.github.pajelonek.empik.empikgithubapi.model.github.UserInfoResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,7 +40,7 @@ class GitHubApiClientTest {
     }
 
     @Test
-    void getUserInfoHappyPath() {
+    void getUserInfoHappyPath() throws DefaultException {
         //given
         final String user = "testUser";
         UserInfoResponse response = json2ClassType("github-api-userinfo-response-ok.json", UserInfoResponse.class);
@@ -58,7 +59,7 @@ class GitHubApiClientTest {
         final String user = "testUser";
         given(restTemplate.getForEntity(anyString(), any())).willThrow(RestClientException.class);
         //when
-        assertThrows(RestClientException.class, () -> client.getUserInfo(user));
+        assertThrows(DefaultException.class, () -> client.getUserInfo(user));
         //then
         verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, UserInfoResponse.class);
     }

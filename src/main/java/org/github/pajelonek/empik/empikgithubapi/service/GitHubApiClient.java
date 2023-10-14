@@ -1,6 +1,8 @@
 package org.github.pajelonek.empik.empikgithubapi.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
+import org.github.pajelonek.empik.empikgithubapi.model.Error;
 import org.github.pajelonek.empik.empikgithubapi.model.github.UserInfoResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class GitHubApiClient {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<UserInfoResponse> getUserInfo(final String user) {
+    public ResponseEntity<UserInfoResponse> getUserInfo(final String user) throws DefaultException {
         log.info("Sending GET request to GitHub Api /users/{user} endpoint with user: {}", user);
 
         URI uri = UriComponentsBuilder
@@ -36,7 +38,7 @@ public class GitHubApiClient {
             response = restTemplate.getForEntity(uri.toString(), UserInfoResponse.class);
         } catch (RestClientException e) {
             log.error("Unexpected error happened during getUserInfo call");
-            throw e;
+            throw new DefaultException(Error.USERINFO_GITHUB_API_EXCEPTION_ERROR);
         }
 
         log.info("GitHub Api /users/{user} response: {}", response);

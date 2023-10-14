@@ -42,7 +42,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserInfoHappyPath() throws DefaultException, InterruptedException {
+    void getUserInfoHappyPath() throws DefaultException {
         // given
         final String user = "testUserName";
         int followers = 3;
@@ -60,7 +60,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserInfoWith0PublicRepos() throws DefaultException, InterruptedException {
+    void getUserInfoWith0PublicRepos() throws DefaultException {
         // given
         final String user = "testUserName2";
         int followers = 4;
