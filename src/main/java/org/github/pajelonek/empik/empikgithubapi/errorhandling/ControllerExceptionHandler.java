@@ -1,5 +1,6 @@
 package org.github.pajelonek.empik.empikgithubapi.errorhandling;
 
+import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
 import org.github.pajelonek.empik.empikgithubapi.model.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,24 @@ import java.util.Date;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(RestClientException.class)
-    public ResponseEntity<ErrorMessage> defaultBadRequestException(RestClientException ex, WebRequest request) {
+    public ResponseEntity<ErrorMessage> badRequestExceptionHandler(RestClientException ex, WebRequest request) {
         ErrorMessage message = new ErrorMessage(
-                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 new Date(),
                 ex.getMessage(),
                 request.getDescription(false));
 
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(DefaultException.class)
+    public ResponseEntity<ErrorMessage> defaultExceptionHandler(DefaultException ex, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

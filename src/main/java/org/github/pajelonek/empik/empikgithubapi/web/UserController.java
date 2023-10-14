@@ -1,6 +1,7 @@
 package org.github.pajelonek.empik.empikgithubapi.web;
 
 import lombok.extern.slf4j.Slf4j;
+import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
 import org.github.pajelonek.empik.empikgithubapi.model.UserResponse;
 import org.github.pajelonek.empik.empikgithubapi.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping("/{user}")
-    public ResponseEntity<UserResponse> user(@PathVariable String user) {
+    public ResponseEntity<UserResponse> user(@PathVariable String user) throws DefaultException, InterruptedException {
         return userService.getUserInfo(user);
     }
 }

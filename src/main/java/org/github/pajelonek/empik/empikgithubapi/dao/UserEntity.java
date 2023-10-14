@@ -2,11 +2,17 @@ package org.github.pajelonek.empik.empikgithubapi.dao;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "GITHUB_USERS")
-public class User {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserEntity {
 
     @Id
     @Column(name = "NAME")

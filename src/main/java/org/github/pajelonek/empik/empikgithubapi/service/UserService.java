@@ -1,6 +1,10 @@
 package org.github.pajelonek.empik.empikgithubapi.service;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.github.pajelonek.empik.empikgithubapi.dao.UserDao;
+import org.github.pajelonek.empik.empikgithubapi.dao.UserEntity;
+import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
 import org.github.pajelonek.empik.empikgithubapi.model.UserResponse;
 import org.github.pajelonek.empik.empikgithubapi.model.github.UserInfoResponse;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +19,18 @@ public class UserService {
 
     final GitHubApiClient client;
 
-    public UserService(GitHubApiClient client) {
+    final UserDao userDao;
+
+    public UserService(GitHubApiClient client, UserDao userDao) {
         this.client = client;
+        this.userDao = userDao;
     }
 
-    public ResponseEntity<UserResponse> getUserInfo(final String user) {
+    @Transactional(rollbackOn = {DefaultException.class})
+    public ResponseEntity<UserResponse> getUserInfo(final String user) throws DefaultException {
         ResponseEntity<UserInfoResponse> gitHubResponse = client.getUserInfo(user);
+        UserEntity userEntity = userDao.getUserWithPessimisticWriteLock(user);
+        userDao.incrementRequestCount(userEntity);
         UserResponse response = mapUserInfoRespFromGitHubResp(Objects.requireNonNull(gitHubResponse.getBody()));
         return ResponseEntity.ok(response);
     }

@@ -1,10 +1,10 @@
 package org.github.pajelonek.empik.empikgithubapi.model;
 
-
 public enum Error {
-    CLIPS_REQUIRED_MAIN_QUERY(5000, "Clips endpoint require one main parameter."),
-    CLIPS_WRONG_FIRST_PARAMETER(5001, "First parameter must be between 0 and 100."),
-    CLIPS_MORE_THAN_ONE_MAIN_QUERY_PROVIDED(5002, "More than one of main query params provided, only one allowed");
+    USERINFO_PESSIMIST_LOCK_EXCEPTION_ERROR(5000, "Error on reading database, contact server admin"),
+    USERINFO_ENTITY_NOT_FOUND_ERROR(5001, "Error on reading database, contact server admin"),
+    USERINFO_DATA_ACCESS_EXCEPTION_ERROR(5002, "Error on reading database, contact server admin"),
+    USERINFO_UNEXPECTED_EXCEPTION_ERROR(5003, "Error on reading database, contact server admin");
 
     private final int id;
     private final String message;

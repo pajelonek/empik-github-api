@@ -1,6 +1,8 @@
 package org.github.pajelonek.empik.empikgithubapi.service;
 
 import org.assertj.core.util.DateUtil;
+import org.github.pajelonek.empik.empikgithubapi.dao.UserDao;
+import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
 import org.github.pajelonek.empik.empikgithubapi.model.UserResponse;
 import org.github.pajelonek.empik.empikgithubapi.model.github.UserInfoResponse;
 import org.junit.jupiter.api.AfterEach;
@@ -26,9 +28,12 @@ class UserServiceTest {
     @Mock
     private GitHubApiClient client;
 
+    @Mock
+    UserDao userDao;
+
     @BeforeEach
     void startUp() {
-        userService = new UserService(client);
+        userService = new UserService(client, userDao);
     }
 
     @AfterEach
@@ -37,7 +42,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserInfoHappyPath() {
+    void getUserInfoHappyPath() throws DefaultException, InterruptedException {
         // given
         final String user = "testUserName";
         int followers = 3;
@@ -55,7 +60,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserInfoWith0PublicRepos() {
+    void getUserInfoWith0PublicRepos() throws DefaultException, InterruptedException {
         // given
         final String user = "testUserName2";
         int followers = 4;
