@@ -43,7 +43,7 @@
 
 ### Dokumentacja: https://docs.github.com/en/free-pro-team@latest/rest/users/users?apiVersion=2022-11-28#get-a-user
 
-### Serwis powininen zapisywać w bazie danych liczbę wywołań API dla każdego loginu. Baza danych pwoinna zawierać dwie kolumny: LOGIN oraz REQUEST_COUNT powinna być zwiększona o jeden.
+### Serwis powininen zapisywać w bazie danych liczbę wywołań API dla każdego loginu. Baza danych pwoinna zawierać dwie kolumny: LOGIN oraz REQUEST_COUNT, REQUEST_COUNT przy każdym wywołaniu serwisu dla usera powinna być zwiększona o jeden.
 
 ### Serwis powinien być zaimplementowany w Java. Projekt powiniene być możliwy do zbudowania za pomocą Maven lub Gradle. Możesz wspierać się dowolnymi, łatwo dostępnymi technologiami (silniki BD, biblioteki, frameworki).
 
