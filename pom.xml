@@ -11,7 +11,7 @@
 
 	<groupId>org.github.pajelonek.empik</groupId>
 	<artifactId>empik-github-api</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<version>0.0.5-SNAPSHOT</version>
 	<name>empik-github-api</name>
 	<description>Empik Github API </description>
 
@@ -20,11 +20,13 @@
 		<jacoco.version>0.8.10</jacoco.version>
 		<mysql-connector-j.version>8.1.0</mysql-connector-j.version>
 		<h2.version>2.2.224</h2.version>
+		<hibernate.version>6.3.1.Final</hibernate.version>
 		<!--sonar-->
 		<sonar.organization>pajelonek</sonar.organization>
 		<sonar.projectKey>pajelonek_empik-github-api</sonar.projectKey>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.exclusions>
+			**/dao/**/*.java,
 			**/model/**/*.java,
 			**/errorhandling/**/*.java
 		</sonar.exclusions>
@@ -48,7 +50,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>6.3.1.Final</version>
+			<version>${hibernate.version}</version>
 			<type>pom</type>
 		</dependency>
 
