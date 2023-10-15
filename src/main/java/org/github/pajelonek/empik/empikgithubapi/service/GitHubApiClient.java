@@ -6,6 +6,7 @@ import org.github.pajelonek.empik.empikgithubapi.model.Error;
 import org.github.pajelonek.empik.empikgithubapi.model.github.UserInfoResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,7 +37,12 @@ public class GitHubApiClient {
 
         try {
             response = restTemplate.getForEntity(uri.toString(), UserInfoResponse.class);
-        } catch (RestClientException e) {
+        }
+        catch (HttpClientErrorException.NotFound e) {
+            log.warn("User has not been found in github api call /users/{user} for user: {}", user);
+            return ResponseEntity.notFound().build();
+        }
+        catch (RestClientException e) {
             log.error("Unexpected error happened during getUserInfo call");
             throw new DefaultException(Error.USERINFO_GITHUB_API_EXCEPTION_ERROR);
         }

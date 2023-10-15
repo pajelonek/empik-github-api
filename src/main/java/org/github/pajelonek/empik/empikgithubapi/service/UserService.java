@@ -7,6 +7,7 @@ import org.github.pajelonek.empik.empikgithubapi.model.UserEntity;
 import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
 import org.github.pajelonek.empik.empikgithubapi.model.UserResponse;
 import org.github.pajelonek.empik.empikgithubapi.model.github.UserInfoResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +29,19 @@ public class UserService {
 
     @Transactional(rollbackOn = {DefaultException.class})
     public ResponseEntity<UserResponse> getUserInfo(final String user) throws DefaultException {
-        ResponseEntity<UserInfoResponse> gitHubResponse = client.getUserInfo(user);
         UserEntity userEntity = userDao.getUserWithPessimisticWriteLock(user);
         userDao.incrementRequestCount(userEntity);
-        UserResponse response = mapUserInfoRespFromGitHubResp(Objects.requireNonNull(gitHubResponse.getBody()));
+        ResponseEntity<UserInfoResponse> gitHubResponse = client.getUserInfo(user);
+
+        if (gitHubResponse.getStatusCode() == HttpStatus.NOT_FOUND) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (gitHubResponse.getBody() == null) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+        UserResponse response = mapUserInfoRespFromGitHubResp(gitHubResponse.getBody());
         return ResponseEntity.ok(response);
     }
 

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
@@ -42,7 +43,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserInfoHappyPath() throws DefaultException, InterruptedException {
+    void getUserInfoHappyPath() throws DefaultException {
         // given
         final String user = "testUserName";
         int followers = 3;
@@ -60,7 +61,20 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserInfoWith0PublicRepos() throws DefaultException, InterruptedException {
+    void getUserInfoNotFound() throws DefaultException {
+        // given
+        final String user = "testUserNameNotFound";
+        given(client.getUserInfo(anyString())).willReturn(ResponseEntity.notFound().build());
+
+        // when
+        ResponseEntity<UserResponse> response = userService.getUserInfo(user);
+
+        // then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void getUserInfoWith0PublicRepos() throws DefaultException {
         // given
         final String user = "testUserName2";
         int followers = 4;
