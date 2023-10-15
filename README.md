@@ -16,6 +16,15 @@
 
 ## Zadanie rekrutacyjne backend
 
+### Prerekwizyty
+- Maven 3
+- Java 17
+
+### Użycie
+- Uruchom mvn spring-boot:run
+- Aplikacja będzie serwować ruch na porcie 8081, używając bazy h2.
+- Można wtedy uderzyć na np http://localhost:8081/users/octocat i podglądać baze danych na htpp://localhost:8081/h2-console z użyciem usera sa i hasla password
+
 ### Stwórz prosty RESTowy serwis, który zwróci informacje
 
 - Identyfikator
