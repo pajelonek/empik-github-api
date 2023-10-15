@@ -1,4 +1,4 @@
-package org.github.pajelonek.empik.empikgithubapi.dao;
+package org.github.pajelonek.empik.empikgithubapi.model;
 
 
 import jakarta.persistence.*;

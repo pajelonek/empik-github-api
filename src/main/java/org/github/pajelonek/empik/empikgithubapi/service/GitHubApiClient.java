@@ -17,7 +17,7 @@ import java.util.Collections;
 @Slf4j
 public class GitHubApiClient {
 
-    private static final String URL = "https://api.github.com/users/{user}";
+    private static final String GITHUB_USERS_URL = "https://api.github.com/users/{user}";
     private final RestTemplate restTemplate;
 
     public GitHubApiClient(RestTemplate restTemplate) {
@@ -28,7 +28,7 @@ public class GitHubApiClient {
         log.info("Sending GET request to GitHub Api /users/{user} endpoint with user: {}", user);
 
         URI uri = UriComponentsBuilder
-                .fromUriString(URL)
+                .fromUriString(GITHUB_USERS_URL)
                 .build()
                 .expand(Collections.singletonMap("user", user)).toUri();
 

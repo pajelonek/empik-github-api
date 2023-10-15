@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.extern.slf4j.Slf4j;
 import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
 import org.github.pajelonek.empik.empikgithubapi.model.Error;
+import org.github.pajelonek.empik.empikgithubapi.model.UserEntity;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +13,11 @@ import org.springframework.stereotype.Repository;
 public class UserDao {
 
     @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
+
+    public UserDao(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
     public UserEntity getUserWithPessimisticWriteLock(String name) throws DefaultException {
         try {

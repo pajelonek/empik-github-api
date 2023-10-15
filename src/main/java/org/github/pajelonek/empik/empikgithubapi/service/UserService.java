@@ -3,7 +3,7 @@ package org.github.pajelonek.empik.empikgithubapi.service;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.github.pajelonek.empik.empikgithubapi.dao.UserDao;
-import org.github.pajelonek.empik.empikgithubapi.dao.UserEntity;
+import org.github.pajelonek.empik.empikgithubapi.model.UserEntity;
 import org.github.pajelonek.empik.empikgithubapi.model.DefaultException;
 import org.github.pajelonek.empik.empikgithubapi.model.UserResponse;
 import org.github.pajelonek.empik.empikgithubapi.model.github.UserInfoResponse;
