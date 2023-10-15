@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -64,4 +65,15 @@ class GitHubApiClientTest {
         verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, UserInfoResponse.class);
     }
 
+    @Test
+    void getUserInfoThrowsNotFoundException() throws DefaultException {
+        //given
+        final String user = "testUser";
+        given(restTemplate.getForEntity(anyString(), any())).willThrow(HttpClientErrorException.NotFound.class);
+        //when
+        ResponseEntity<UserInfoResponse> response = client.getUserInfo(user);
+        //then
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        verify(restTemplate, times(1)).getForEntity("https://api.github.com/users/" + user, UserInfoResponse.class);
+    }
 }
