@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @GetMapping("/{user}")
-    public ResponseEntity<UserResponse> user(@PathVariable String user) throws DefaultException, InterruptedException {
+    public ResponseEntity<UserResponse> user(@PathVariable String user) throws DefaultException {
         return userService.getUserInfo(user);
     }
 }
