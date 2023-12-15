@@ -19,7 +19,7 @@
 		<java.version>17</java.version>
 		<jacoco.version>0.8.10</jacoco.version>
 		<h2.version>2.2.224</h2.version>
-		<hibernate.version>6.3.1.Final</hibernate.version>
+		<hibernate.version>6.4.0.Final</hibernate.version>
 		<!--sonar-->
 		<sonar.organization>pajelonek</sonar.organization>
 		<sonar.projectKey>pajelonek_empik-github-api</sonar.projectKey>
